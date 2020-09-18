@@ -1,15 +1,21 @@
-alias Graphvix.{Graph, Node, Edge, Cluster}
+alias Graphvix.{Graph, Node}
 
 defmodule Vis do
-  def main([input]),
-   do: to_graphviz(input |> parse)
-   |> IO.puts
+  @spec main([binary]) :: :ok
+  def main([input]) do
+    to_graphviz(input |> parse)
+    |> IO.puts()
+  end
 
-  def to_graphviz(list),
-    do: _to_graphviz(Graph.new(), nil, list)
+  @spec to_graphviz([...]) :: binary
+  def to_graphviz(list) do
+    _to_graphviz(Graph.new(), nil, list)
     |> Graph.to_dot()
+  end
 
+  @spec _to_graphviz(Graph.t(), Node.t(), nil | [...]) :: any
   def _to_graphviz(graph, _, nil), do: graph
+
   def _to_graphviz(graph, parent_node, [x, l, r]) do
     {graph, node} = Graph.add_vertex(graph, x)
     {graph, _} = Graph.add_edge(graph, node, parent_node)
